@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fortnite — Szerkeszthető Fan oldal</title>
+  <meta name="description" content="Szerkeszthető Fortnite fan oldal. Kattints a Szerkesztés gombra, módosítsd a szöveget, feltölthetsz képet, majd exportálhatod a végeredményt.">
+  <style>
+    :root{
+      --bg:#071025; --card:#0b1626; --accent:#00e5ff; --accent2:#7c3aed; --muted:#9fb0c8;
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#020617,#071228);color:#eaf4ff;padding:22px;display:flex;justify-content:center}
+    .wrap{width:100%;max-width:1100px}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-weight:900;color:#021}
+    nav a{color:var(--muted);text-decoration:none;margin-left:12px;font-weight:700}
+    .toolbar{display:flex;gap:8px;align-items:center}
+    button{background:linear-gradient(90deg,var(--accent),var(--accent2));border:0;padding:8px 12px;border-radius:10px;color:#021;font-weight:800;cursor:pointer}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.05);color:var(--muted);padding:8px 10px;border-radius:10px}
+    .hero{background:linear-gradient(180deg,rgba(0,229,255,0.03),transparent);padding:22px;border-radius:12px;display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:center}
+    h1{margin:0 0 6px 0;font-size:28px}
+    p{margin:0;color:var(--muted);line-height:1.45}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+    .card{background:var(--card);padding:12px;border-radius:10px}
+    .skin img{width:100%;height:150px;object-fit:cover;border-radius:8px;background:#081022}
+    .side{background:linear-gradient(180deg, rgba(124,58,237,0.02), rgba(0,229,255,0.02));padding:14px;border-radius:10px}
+    .img-preview{width:100%;height:160px;background:#081020;border-radius:8px;display:grid;place-items:center;color:var(--muted);overflow:hidden}
+    [contenteditable].editing{outline:2px dashed rgba(124,58,237,0.6);background:rgba(124,58,237,0.02)}
+    input,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+    footer{margin-top:16px;color:var(--muted);text-align:center;font-size:13px}
+    @media(max-width:920px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.grid{grid-template-columns:1fr}body{padding:12px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">FN</div>
+        <div>
+          <div style="font-weight:900" id="siteName" contenteditable="false">Fortnite Fan Hub</div>
+          <div class="muted" style="font-size:13px" id="siteTag" contenteditable="false">Hírek • Skinek • Eventek</div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button id="toggleEdit">Szerkesztés: KI (Ctrl/Cmd+E)</button>
+        <button id="exportBtn" class="ghost">Exportálás (.html)</button>
+        <label for="imgUpload" class="ghost" style="cursor:pointer">Kép feltöltés</label>
+        <input id="imgUpload" type="file" accept="image/*" style="display:none">
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h1 id="heroTitle" contenteditable="false">Legfrissebb Fortnite hírek</h1>
+          <p id="heroText" contenteditable="false">Ez egy szerkeszthető demo. Kattints a Szerkesztésre, módosítsd a szövegeket, tölts fel saját screenshotokat, majd exportáld.</p>
+
+          <div class="grid" style="margin-top:14px">
+            <div class="card" contenteditable="false"><strong>Patch</strong><div class="muted">v28.x — balance update</div></div>
+            <div class="card" contenteditable="false"><strong>Tippek</strong><div class="muted">Új build strat</div></div>
+            <div class="card" contenteditable="false"><strong>Event</strong><div class="muted">Hétvégi Royale Cup</div></div>
+          </div>
+        </div>
+
+        <aside class="side">
+          <div class="img-preview" id="imgPreview">Nincs kép<br><small class="muted">Feltölthetsz screenshotot</small></div>
+          <div style="margin-top:12px">
+            <div style="font-weight:800" id="playerName" contenteditable="false">Játékos neve</div>
+            <div class="muted" id="playerTag" contenteditable="false">Epic ID • Rang</div>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <a class="ghost" href="#" id="link1">Profil</a>
+              <a class="ghost" href="#" id="link2">Discord</a>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section style="margin-top:16px">
+        <h3 contenteditable="false" id="aboutTitle">Skinek</h3>
+        <div class="grid" style="margin-top:8px">
+          <div class="skin card" contenteditable="false"><div style="font-weight:800">Skin 1</div><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='240'><rect width='100%' height='100%' fill='%23081122'/><text x='50%' y='50%' font-size='18' fill='%239fb0c8' text-anchor='middle' dominant-baseline='middle'>Helyőrző</text></svg>" alt="s1"><div class="muted">Leírás</div></div>
+          <div class="skin card" contenteditable="false"><div style="font-weight:800">Skin 2</div><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='240'><rect width='100%' height='100%' fill='%23081122'/><text x='50%' y='50%' font-size='18' fill='%239fb0c8' text-anchor='middle' dominant-baseline='middle'>Helyőrző</text></svg>" alt="s2"><div class="muted">Leírás</div></div>
+          <div class="skin card" contenteditable="false"><div style="font-weight:800">Skin 3</div><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='240'><rect width='100%' height='100%' fill='%23081122'/><text x='50%' y='50%' font-size='18' fill='%239fb0c8' text-anchor='middle' dominant-baseline='middle'>Helyőrző</text></svg>" alt="s3"><div class="muted">Leírás</div></div>
+        </div>
+      </section>
+
+      <section id="events" style="margin-top:16px">
+        <h3 contenteditable="false" id="eventsTitle">Események</h3>
+        <div class="grid" style="margin-top:8px">
+          <div class="card" contenteditable="false"><strong>Royale Cup</strong><div class="muted">2025-09-12</div></div>
+          <div class="card" contenteditable="false"><strong>Community Live</strong><div class="muted">2025-09-20</div></div>
+          <div class="card" contenteditable="false"><strong>Secret Collab</strong><div class="muted">Idő egyeztetés alatt</div></div>
+        </div>
+      </section>
+
+      <section style="margin-top:16px">
+        <h3 contenteditable="false" id="joinTitle">Csatlakozz</h3>
+        <div class="card" style="margin-top:8px" contenteditable="false">
+          <p class="muted">Add meg a Discord vagy invite linket: ez a mező helyben menti el, és szerkesztés után exportálhatod.</p>
+          <input id="inviteInput" placeholder="https://discord.gg/..." />
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button id="saveInvite" class="ghost">Mentés</button>
+            <button id="showInvite" class="ghost">Mutasd</button>
+          </div>
+          <div id="inviteStatus" class="muted" style="margin-top:8px"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="muted">© <span id="yr"></span> Fortnite Fan Hub — Szerkeszthető demo. Nem hivatalos.</div>
+    </footer>
+  </div>
+
+  <script>
+    // alap
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    const toggleBtn = document.getElementById('toggleEdit');
+    const exportBtn = document.getElementById('exportBtn');
+    const editableEls = document.querySelectorAll('[contenteditable]');
+    const imgInput = document.getElementById('imgUpload');
+    const imgPreview = document.getElementById('imgPreview');
+    const saveInvite = document.getElementById('saveInvite');
+    const showInvite = document.getElementById('showInvite');
+    const inviteInput = document.getElementById('inviteInput');
+    const inviteStatus = document.getElementById('inviteStatus');
+
+    let editing = false;
+    function setEditing(on){
+      editing = on;
+      toggleBtn.textContent = 'Szerkesztés: ' + (editing? 'BE' : 'KI') + ' (Ctrl/Cmd+E)';
+      editableEls.forEach(el=>{
+        el.contentEditable = editing;
+        if(editing) el.classList.add('editing'); else el.classList.remove('editing');
+      });
+    }
+
+    toggleBtn.addEventListener('click', ()=> setEditing(!editing));
+
+    // keyboard shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if((e.ctrlKey||e.metaKey) && e.key.toLowerCase() === 'e'){ e.preventDefault(); setEditing(!editing); }
+      if((e.ctrlKey||e.metaKey) && e.key.toLowerCase() === 's'){ if(editing){ e.preventDefault(); exportBtn.click(); } }
+    });
+
+    // image upload preview
+    imgInput.addEventListener('change', (e)=>{
+      const f = e.target.files && e.target.files[0];
+      if(!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        imgPreview.innerHTML = '<img src="'+reader.result+'" alt="preview">';
+        localStorage.setItem('fn_img', reader.result);
+      };
+      reader.readAsDataURL(f);
+    });
+    // load saved img
+    window.addEventListener('load', ()=>{
+      const savedImg = localStorage.getItem('fn_img');
+      if(savedImg) imgPreview.innerHTML = '<img src="'+savedImg+'" alt="preview">';
+      const inv = localStorage.getItem('fn_invite'); if(inv){ inviteStatus.textContent = 'Mentett invite: ' + inv; inviteInput.value = inv; }
+    });
+
+    // export current HTML (single-file)
+    exportBtn.addEventListener('click', ()=>{
+      // temporarily remove outlines to keep clean export
+      editableEls.forEach(el=> el.classList.remove('editing'));
+      const docType = '<!doctype html>\n';
+      const html = docType + document.documentElement.outerHTML;
+      const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'fortnite_editable.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      setEditing(false);
+    });
+
+    // invite save/show
+    saveInvite.addEventListener('click', ()=>{
+      const v = inviteInput.value.trim();
+      if(!v){ inviteStatus.textContent = 'Adj meg egy linket!'; return; }
+      localStorage.setItem('fn_invite', v);
+      inviteStatus.textContent = 'Elmentve: ' + v;
+    });
+    showInvite.addEventListener('click', ()=>{
+      const v = inviteInput.value.trim() || localStorage.getItem('fn_invite') || '';
+      if(!v){ inviteStatus.textContent = 'Nincs invite mentve.'; return; }
+      window.open(v, '_blank');
+    });
+
+    // fake links (prevent nav while editing)
+    document.getElementById('link1').addEventListener('click', (e)=>{ e.preventDefault(); if(!editing) alert('Profil link — demo. Kapcs. módban szerkesztheted.'); });
+    document.getElementById('link2').addEventListener('click', (e)=>{ e.preventDefault(); if(!editing) alert('Discord link — demo.'); });
+  </script>
+</body>
+</html>
